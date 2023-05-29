@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Button.OnClick" parent="Widget.AppCompat.Button">
+        <item name="android:buttonCornerRadius">100dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:backgroundTint">@color/yellow</item>
+        <item name="textAllCaps">false</item>
+    </style>
+</resources>
