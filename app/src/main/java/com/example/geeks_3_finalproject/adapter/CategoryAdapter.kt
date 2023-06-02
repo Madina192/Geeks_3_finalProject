@@ -1,21 +1,20 @@
 package com.example.geeks_3_finalproject.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.geeks_3_finalproject.Category
-import com.example.geeks_3_finalproject.R
+import com.example.geeks_3_finalproject.databinding.ItemCategoryBinding
 
 
-class CategoryAdapter(var arrayList: ArrayList<Category>) : RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(var arrayList: ArrayList<Category>) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         return CategoryViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
+            ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -27,16 +26,21 @@ class CategoryAdapter(var arrayList: ArrayList<Category>) : RecyclerView.Adapter
         holder.onBind(arrayList[position])
     }
 
-}
+    inner class CategoryViewHolder(var binding : ItemCategoryBinding) : ViewHolder(binding.root) {
+         private lateinit var image : ImageView
+         lateinit var title : TextView
+        private fun findViews(){
+            image = binding.imageViewMiniHamb
+            title = binding.textViewTitle
+        }
 
-class CategoryViewHolder(itemView: View) : ViewHolder(itemView) {
+        fun onBind(category: Category) {
+            findViews()
+            image.setImageResource(category.image)
+            title.text = category.title
+        }
 
-    var image : ImageView = itemView.findViewById(R.id.image_view_mini_hamb)
-    var title : TextView = itemView.findViewById(R.id.text_view_title)
-
-    fun onBind(category: Category) {
-        image.setImageResource(category.image)
-        title.text = category.title
     }
 
 }
+

@@ -1,78 +1,62 @@
 package com.example.geeks_3_finalproject
 
-import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geeks_3_finalproject.adapter.CategoryAdapter
+import com.example.geeks_3_finalproject.adapter.ProductAdapter
 import com.example.geeks_3_finalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var arrayList : ArrayList<Category>
-    lateinit var adapter : CategoryAdapter
-    lateinit var recyclerView : RecyclerView
-    lateinit var binding : ActivityMainBinding
-    var isDeliveryClicked : Boolean = false
-    var isPickUpClicked : Boolean = false
-    var isCateringClicked : Boolean = false
-    var isCurbsideClicked : Boolean = false
+    lateinit var arrayList: ArrayList<Category>
+    lateinit var categoryAdapter: CategoryAdapter
+    lateinit var categoryRecyclerView: RecyclerView
+    lateinit var binding: ActivityMainBinding
+
+    lateinit var productAdapter : ProductAdapter
+    lateinit var productRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        adapter = CategoryAdapter(setCategory())
-        recyclerView = findViewById(R.id.recyclerView_category)
-        recyclerView.adapter = adapter
-        changeColor(binding.buttonDelivery)
-        changeColor(binding.buttonPickUp)
-        changeColor(binding.buttonCatering)
-        changeColor(binding.buttonCurbside)
+
+        setAdapters()
     }
 
     private fun setCategory(): ArrayList<Category> {
         return arrayListOf(
             Category(R.drawable.img_mini_hamb, "Takeaways"),
-            Category(R.drawable.img_mini_hamb, "Grocery"),
-            Category(R.drawable.img_mini_hamb, "Convenience"),
-            Category(R.drawable.img_mini_hamb, "Pharmacy")
-            )
+            Category(R.drawable.img_vegetables, "Grocery"),
+            Category(R.drawable.img_brush, "Convenience"),
+            Category(R.drawable.img_pharmacy, "Pharmacy")
+        )
     }
 
-    @SuppressLint("ResourceAsColor")
-    private fun changeColor(button : AppCompatButton) {
-        button.setOnClickListener {
-            when (button) {
-                binding.buttonDelivery -> {
-                    isDeliveryClicked = true
-                    if(isDeliveryClicked) {
-                        button.background = ResourcesCompat.getDrawable(resources, R.drawable.button_bg_on_click, null)
-                        button.setTextColor(resources.getColor(R.color.white, null))
-                    } else {
-                        button.background = ResourcesCompat.getDrawable(resources, R.drawable.button_category, null)
-                        button.setTextColor(resources.getColor(R.color.dark_green, null))
-                    }
-                }
-                binding.buttonPickUp -> {
-                    button.background = ResourcesCompat.getDrawable(resources, R.drawable.button_bg_on_click, null)
-                    button.setTextColor(resources.getColor(R.color.white, null))
-                    isPickUpClicked = true
-                }
-                binding.buttonCatering -> {
-                    button.background = ResourcesCompat.getDrawable(resources, R.drawable.button_bg_on_click, null)
-                    button.setTextColor(resources.getColor(R.color.white, null))
-                    isCateringClicked = true
-                }
-                binding.buttonCurbside -> {
-                    button.background = ResourcesCompat.getDrawable(resources, R.drawable.button_bg_on_click, null)
-                    button.setTextColor(resources.getColor(R.color.white, null))
-                    isCurbsideClicked = true
-                }
-            }
+    private fun setProducts() : ArrayList<Product> {
+        return arrayListOf(
+            Product("Burger Craze", R.drawable.img_hamburger, true, 4.6, 601, "American", "Burgers", "FREE", "$10", "15-20 min", "1.5 km"),
+            Product("Vegetarian Pizza", R.drawable.img_pizza, false, 4.6, 784, "Italian", "Burgers", "FREE", "$10", "10-15 min", "0.8 km"),
+            Product("Fried Chicken", R.drawable.chicken, true, 4.8, 460, "Kentucky", "Fast Food", "10%", "$13", "20-25 min", "2.3 km"),
+            Product("Indian Samosa", R.drawable.img_hamburger, false, 4.5, 537, "Indian", "Foods", "$5", "$8", "15-20 min", "1.4 km"),
+            Product("Pepperoni Pizza", R.drawable.img_pizza, true, 3.9, 893, "French", "Pizzas", "FREE", "$9", "5-10 min", "0.2 km"),
+        )
+    }
+
+    private fun setAdapters(){
+        categoryAdapter = CategoryAdapter(setCategory())
+        categoryRecyclerView = binding.recyclerViewCategory
+        categoryRecyclerView.adapter = categoryAdapter
+
+        productAdapter = ProductAdapter(setProducts()) {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("product", it)
+            startActivity(intent)
         }
+        productRecyclerView = binding.recyclerViewProducts
+        productRecyclerView.adapter = productAdapter
     }
 
 }

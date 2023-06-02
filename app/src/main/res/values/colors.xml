@@ -8,4 +8,10 @@
     <color name="gray">#e0e0e0</color>
     <color name="gray_search">#9e9e9e</color>
     <color name="yellow">#FBBC04</color>
+    <color name="orange">#FF9D00</color>
+    <color name="dark_gray">#666666</color>
+    <color name="green">#82C446</color>
+    <color name="gray_item">#838383</color>
+    <color name="yellow_btn">#FFC545</color>
+    <color name="gray_around">#F0F0F0</color>
 </resources>
